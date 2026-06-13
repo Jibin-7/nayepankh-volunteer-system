@@ -11,11 +11,33 @@ const VolunteerForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://nayepankh-volunteer-system-d9ro.onrender.com/api/register', formData);
+      // Note: Change this to your Render URL if you are testing the live site
+      const res = await axios.post('http://localhost:5000/api/register', formData);
+      
+      // 1. Display the success message from the backend
       setMessage(res.data.message);
-      setFormData({ fullName: '', email: '', phone: '', interest: '', availability: 'Weekends' });
+      
+      // 2. Reset the form back to its exact initial state
+      setFormData({ 
+        fullName: '', 
+        email: '', 
+        phone: '', 
+        interest: '', 
+        availability: 'Weekends' 
+      });
+
+      // 3. Pro UX Feature: Auto-hide the message after 5 seconds (5000 milliseconds)
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
+
     } catch (err) {
       setMessage('Registration failed. Please try again.');
+      
+      // Also auto-hide the error message
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
     }
   };
 
